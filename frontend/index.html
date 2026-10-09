@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDIKIOSK — AI Clinical Intake & Care Navigation Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f4f2; color: #111827; }
+        .glass-card { background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 4px 25px rgba(0, 0, 0, 0.04); }
+        .card-hover { transition: all 0.25s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- TOP NAVBAR -->
+    <header class="w-full px-8 py-5 flex justify-between items-center border-b border-gray-200/80 bg-[#f4f4f2]">
+        <div class="flex items-center gap-2.5 cursor-pointer" onclick="showPage('landing')">
+            <div class="w-8 h-8 bg-slate-900 rounded-xl flex items-center justify-center text-white font-extrabold text-xs">⚡</div>
+            <span class="font-extrabold tracking-tight text-xl text-slate-900">MEDIKIOSK</span>
+            <span class="text-[10px] bg-teal-100 text-teal-800 font-extrabold px-2 py-0.5 rounded-full ml-1 border border-teal-200">SIH 2026 Live MVP</span>
+        </div>
+        <div class="text-xs text-slate-500 font-semibold">
+            Ministry of AYUSH • Problem Statement SIH 26047 • Team Medinexus
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-1 flex items-center justify-center p-6 max-w-6xl mx-auto w-full">
+
+        <!-- ==================== LANDING PAGE (ROLE SELECTION) ==================== -->
+        <div id="page-landing" class="w-full max-w-4xl text-center space-y-10 my-auto">
+            
+            <div class="space-y-3">
+                <div class="inline-block bg-slate-200 text-slate-800 font-bold text-xs px-3.5 py-1 rounded-full border border-slate-300">
+                    🏥 Intelligent Clinical Intake & Care Navigation
+                </div>
+                <h1 class="text-5xl font-extrabold tracking-tight text-slate-900">MEDIKIOSK</h1>
+                <p class="text-slate-600 text-base font-medium max-w-xl mx-auto">
+                    Transforming rushed 2-minute OPD intake into zero-barrier, doctor-ready clinical summaries.
+                </p>
+            </div>
+
+            <!-- 3 ROLE CARDS GRID -->
+            <div class="grid grid-cols-3 gap-6 text-left">
+                
+                <!-- 1. PATIENT PORTAL -->
+                <div onclick="showPage('patient')" class="glass-card p-7 rounded-2xl card-hover cursor-pointer flex flex-col justify-between h-72 border-l-4 border-l-teal-600">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-2xl text-teal-700">
+                            👤
+                        </div>
+                        <div>
+                            <div class="text-[11px] font-extrabold text-teal-700 uppercase tracking-wider">Voice & Touch Intake</div>
+                            <h2 class="text-xl font-extrabold text-slate-900 mt-0.5">Patient Portal</h2>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed">Multilingual voice, sign-language avatar, OCR scan & body map.</p>
+                        </div>
+                    </div>
+                    <div class="text-teal-700 font-bold text-xs flex items-center gap-1.5 pt-4 border-t border-gray-100">
+                        Launch Patient Kiosk ➔
+                    </div>
+                </div>
+
+                <!-- 2. DOCTOR DASHBOARD -->
+                <div onclick="showPage('doctor')" class="glass-card p-7 rounded-2xl card-hover cursor-pointer flex flex-col justify-between h-72 border-l-4 border-l-indigo-600">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-2xl text-indigo-700">
+                            🩺
+                        </div>
+                        <div>
+                            <div class="text-[11px] font-extrabold text-indigo-700 uppercase tracking-wider">Human-in-the-Loop</div>
+                            <h2 class="text-xl font-extrabold text-slate-900 mt-0.5">Doctor OPD Dashboard</h2>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed">Review 30-sec AI clinical drafts, verify handwritten OCR & digitally sign.</p>
+                        </div>
+                    </div>
+                    <div class="text-indigo-700 font-bold text-xs flex items-center gap-1.5 pt-4 border-t border-gray-100">
+                        Access OPD Queue ➔
+                    </div>
+                </div>
+
+                <!-- 3. AYUSH & CARE NAV SPECIALIST -->
+                <div onclick="showPage('care_nav')" class="glass-card p-7 rounded-2xl card-hover cursor-pointer flex flex-col justify-between h-72 border-l-4 border-l-purple-600">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-2xl text-purple-700">
+                            🌿
+                        </div>
+                        <div>
+                            <div class="text-[11px] font-extrabold text-purple-700 uppercase tracking-wider">AYUSH & Care Navigation</div>
+                            <h2 class="text-xl font-extrabold text-slate-900 mt-0.5">Care & Referral Hub</h2>
+                            <p class="text-slate-500 text-xs mt-2 leading-relaxed">Dashavidha Pariksha, Geolocation Specialist Discovery & ABDM slot booking.</p>
+                        </div>
+                    </div>
+                    <div class="text-purple-700 font-bold text-xs flex items-center gap-1.5 pt-4 border-t border-gray-100">
+                        Explore Care Hub ➔
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 2: PATIENT KIOSK PORTAL ==================== -->
+        <div id="page-patient" class="w-full space-y-6 hidden">
+            
+            <div class="flex justify-between items-center glass-card p-6 rounded-2xl">
+                <div>
+                    <h2 class="text-xl font-extrabold text-slate-900">Patient Clinical Intake Kiosk</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Zero-Barrier Voice & Touch Intake in 15+ Native Indian Languages</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <select class="bg-gray-50 border border-gray-300 text-slate-800 text-xs font-semibold rounded-xl px-4 py-2.5">
+                        <option>Hindi (हिंदी)</option>
+                        <option selected>Marathi (मराठी)</option>
+                        <option>English</option>
+                    </select>
+                    <button onclick="showPage('landing')" class="text-xs text-slate-500 hover:text-slate-900 font-bold px-3 py-2">← Back to Role Selection</button>
+                </div>
+            </div>
+
+            <!-- Steps Bar -->
+            <div class="grid grid-cols-3 gap-4 text-center text-xs font-bold">
+                <div id="pstep-1" class="p-3.5 rounded-xl border bg-slate-900 text-white">1. Voice Intake & Body Map</div>
+                <div id="pstep-2" class="p-3.5 rounded-xl border bg-white text-slate-500 border-gray-200">2. Document OCR Scan</div>
+                <div id="pstep-3" class="p-3.5 rounded-xl border bg-white text-slate-500 border-gray-200">3. AI Summary & Care Nav</div>
+            </div>
+
+            <!-- STEP 1 CONTENT -->
+            <div id="pstep-1-content" class="grid grid-cols-2 gap-6">
+                <!-- Voice Interview -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-extrabold text-slate-900 text-xs uppercase tracking-wider">🗣️ Spoken Complaint (Bhashini Engine)</h3>
+                        <!-- SIGN LANGUAGE AVATAR TOGGLE (SIH BONUS STRETCH GOAL) -->
+                        <span class="bg-purple-100 text-purple-800 border border-purple-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full flex items-center gap-1">
+                            🤟 Sign-Language Avatar Active
+                        </span>
+                    </div>
+
+                    <!-- Sign Language Avatar Preview Widget -->
+                    <div class="bg-slate-950 p-3 rounded-xl border border-purple-500/40 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-900 rounded-lg flex items-center justify-center text-xl">🤟</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-purple-300">ISL Video Avatar (SIH Accessibility Goal)</h4>
+                                <p class="text-[10px] text-slate-400">Translating audio prompts to Indian Sign Language gestures</p>
+                            </div>
+                        </div>
+                        <span class="bg-purple-500 text-white text-[10px] font-bold px-2 py-0.5 rounded animate-pulse">Live Gesture</span>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-500 font-medium">Patient Name:</label>
+                        <input type="text" value="Rajesh Kumar (Uncle, 65 Yrs)" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs text-slate-900 font-medium" />
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="text-xs text-slate-500 font-medium">Spoken Complaint:</label>
+                        <textarea rows="3" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs text-slate-900 font-medium">Mujhe 3 din se seene mein tez dard aur left arm mein jalan ho rahi hai</textarea>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button id="p-mic-btn" onclick="togglePMic()" class="flex-1 bg-teal-700 text-white font-semibold text-xs py-3 rounded-xl hover:bg-teal-800 transition">
+                            🎙️ Hold to Speak (Bhashini Engine)
+                        </button>
+                        <button onclick="goPatientStep(2)" class="bg-slate-900 text-white font-semibold text-xs px-6 py-3 rounded-xl hover:bg-slate-800 transition">
+                            Next: Scan Docs ➔
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Body Map -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <h3 class="font-extrabold text-slate-900 text-xs uppercase tracking-wider">🗺️ Interactive Body Map</h3>
+                    <p class="text-xs text-slate-500">Tap pain location on body map:</p>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs font-semibold">
+                        <button class="p-4 rounded-xl border border-gray-200 bg-gray-50 text-slate-700 hover:bg-gray-100">Head / Sar</button>
+                        <button class="p-4 rounded-xl border-2 border-teal-600 bg-teal-50 text-teal-900 font-bold">Left Chest / Chhati 📍</button>
+                        <button class="p-4 rounded-xl border border-gray-200 bg-gray-50 text-slate-700 hover:bg-gray-100">Abdomen / Pet</button>
+                        <button class="p-4 rounded-xl border border-gray-200 bg-gray-50 text-slate-700 hover:bg-gray-100">Joints / Jod</button>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 text-xs text-slate-600 font-medium">
+                        Selected Site: <span class="text-teal-800 font-bold">Left Chest</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2 CONTENT -->
+            <div id="pstep-2-content" class="glass-card p-6 rounded-2xl space-y-6 hidden">
+                <!-- Red Flag Alert -->
+                <div class="bg-rose-50 border-2 border-rose-500 p-4 rounded-xl flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🚑</span>
+                        <div>
+                            <h4 class="font-bold text-rose-900 text-sm">🚨 EMERGENCY RED-FLAG TRIGGERED!</h4>
+                            <p class="text-xs text-rose-700">Suspected Acute Coronary Syndrome (Heart Attack) — Triage Alert Sent!</p>
+                        </div>
+                    </div>
+                    <span class="bg-rose-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg">Critical Priority</span>
+                </div>
+
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm uppercase">📸 Medical Document OCR Scan</h3>
+                        <p class="text-xs text-slate-500">Extracting handwritten prescriptions & lab values.</p>
+                    </div>
+                    <button onclick="goPatientStep(3)" class="bg-slate-900 text-white font-semibold text-xs px-6 py-3 rounded-xl">
+                        Generate AI Summary ➔
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 text-xs">
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2">
+                        <span class="font-bold text-slate-900">📄 Handwritten Prescription OCR:</span>
+                        <p class="text-slate-600 font-mono">✓ Amlodipine 5mg OD (96% Conf)</p>
+                        <p class="text-slate-600 font-mono">✓ Metformin 500mg BD (94% Conf)</p>
+                        <p class="text-amber-700 font-mono font-semibold">⚠️ Ecosprin 75mg OD (78% Low Conf - Flagged)</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-2">
+                        <span class="font-bold text-slate-900">📊 Lab Values Extraction:</span>
+                        <p class="text-rose-700 font-mono font-semibold">🚨 BP: 150/90 mmHg (HIGH ⬆️)</p>
+                        <p class="text-rose-700 font-mono font-semibold">🚨 HbA1c: 8.2% (ELEVATED ⬆️)</p>
+                        <p class="text-slate-600 font-mono">✓ Creatinine: 1.1 mg/dL (Normal)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3 CONTENT -->
+            <div id="pstep-3-content" class="glass-card p-6 rounded-2xl space-y-6 hidden">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-sm uppercase">📋 Generated Clinical Draft Summary</h3>
+                    <div class="bg-gray-900 text-teal-400 p-4 rounded-xl font-mono text-xs mt-3 leading-relaxed">
+CHIEF COMPLAINT: Chest Pain & Jalan for 3 Days (Left Arm Radiation)
+PAST HISTORY: Hypertension (5 Yrs), Type 2 Diabetes Mellitus
+CURRENT MEDS: Amlodipine 5mg OD, Metformin 500mg BD, Ecosprin 75mg OD (Flagged)
+FLAGGED LABS: BP 150/90 mmHg (High), HbA1c 8.2% (Elevated)
+AYUSH PARIKSHA: Pitta-Kapha Prakriti | Vata Dushti | Mandagni
+SEVERITY SCORE: 4.5 / 5 (Emergency Triage)
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-300 p-4 rounded-xl flex items-center justify-between text-xs">
+                    <div>
+                        <h4 class="font-bold text-amber-900">DPDP Act 2023 Explicit Consent Gate:</h4>
+                        <p class="text-amber-800 mt-0.5">Do you consent to transmit records to Cardiologist Dr. A. K. Sharma?</p>
+                    </div>
+                    <button onclick="grantConsentAndPush()" class="bg-teal-700 text-white font-semibold px-6 py-2.5 rounded-xl hover:bg-teal-800">
+                        Grant Consent & Push to Doctor Dashboard ➔
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 3: DOCTOR DASHBOARD PORTAL ==================== -->
+        <div id="page-doctor" class="w-full space-y-6 hidden">
+            
+            <div class="flex justify-between items-center glass-card p-6 rounded-2xl">
+                <div>
+                    <h2 class="text-xl font-extrabold text-slate-900">Doctor OPD Verification Dashboard</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Human-in-the-loop: Review AI pre-verified clinical summaries in 30s</p>
+                </div>
+                <button onclick="showPage('landing')" class="text-xs text-slate-500 hover:text-slate-900 font-bold px-3 py-2">← Back to Role Selection</button>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl space-y-6">
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4">
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-sm">Patient: Rajesh Kumar (Uncle, 65 Yrs)</h3>
+                        <p class="text-xs text-slate-500">ABHA ID: 91-8840-2910-4491 • Priority: <span class="text-rose-600 font-bold">Emergency Triage (4.5/5)</span></p>
+                    </div>
+                    <span id="doc-status-badge" class="bg-amber-100 text-amber-800 font-bold text-xs px-3 py-1.5 rounded-full border border-amber-300">
+                        Status: PENDING DOCTOR VERIFICATION
+                    </span>
+                </div>
+
+                <div class="bg-gray-900 text-teal-300 p-4 rounded-xl font-mono text-xs leading-relaxed">
+CHIEF COMPLAINT: Chest Pain & Jalan for 3 Days (Left Arm Radiation)
+PAST HISTORY: Hypertension (5 Yrs), Type 2 Diabetes Mellitus
+CURRENT MEDS: Amlodipine 5mg OD, Metformin 500mg BD, Ecosprin 75mg OD (Low Confidence Flagged)
+FLAGGED LABS: BP 150/90 mmHg (Uncontrolled High), HbA1c 8.2%
+AYUSH PARIKSHA: Pitta-Kapha Prakriti | Vata Dushti | Mandagni
+                </div>
+
+                <div class="flex gap-4 pt-2">
+                    <button onclick="doctorApprove()" class="bg-teal-700 text-white font-semibold text-xs px-6 py-3 rounded-xl hover:bg-teal-800">
+                        ✅ Verify & Sign Summary (Digital Signature)
+                    </button>
+                    <button onclick="alert('Summary Linked to FHIR R4 Bundle & ABDM!')" class="bg-slate-900 text-white font-semibold text-xs px-6 py-3 rounded-xl hover:bg-slate-800">
+                        🔗 Export FHIR R4 Bundle
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================== PAGE 4: AYUSH & CARE NAV HUB ==================== -->
+        <div id="page-care_nav" class="w-full space-y-6 hidden">
+            <div class="flex justify-between items-center glass-card p-6 rounded-2xl">
+                <div>
+                    <h2 class="text-xl font-extrabold text-slate-900">Care Navigation & Specialist Discovery</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Matched Specialty based on Intake: <span class="text-purple-700 font-extrabold">Cardiology & Internal Medicine</span></p>
+                </div>
+                <button onclick="showPage('landing')" class="text-xs text-slate-500 hover:text-slate-900 font-bold px-3 py-2">← Back to Role Selection</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <div class="glass-card p-6 rounded-2xl space-y-4 border-l-4 border-l-purple-600">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-extrabold text-slate-900 text-sm">AIIMS Ayushman Apex Hospital</h4>
+                            <p class="text-xs text-slate-500">Specialty: Cardiology • Distance: 1.2 KM</p>
+                        </div>
+                        <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">Slots Available</span>
+                    </div>
+
+                    <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 text-xs space-y-2">
+                        <p class="font-bold text-slate-800">Dr. A. K. Sharma (DM Cardiology)</p>
+                        <p class="text-slate-500">Next Slot: <span class="text-teal-700 font-bold">10:30 AM Today</span></p>
+                    </div>
+
+                    <button id="book-btn" onclick="bookSlot()" class="w-full bg-purple-700 text-white font-semibold text-xs py-3 rounded-xl hover:bg-purple-800">
+                        Select Slot & Transfer Case File ➔
+                    </button>
+                </div>
+
+                <div class="glass-card p-6 rounded-2xl space-y-4 border-l-4 border-l-teal-600">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-extrabold text-slate-900 text-sm">District Civil Hospital & AYUSH Center</h4>
+                            <p class="text-xs text-slate-500">Specialty: General OPD & Ayurvedic Care • Distance: 2.8 KM</p>
+                        </div>
+                        <span class="text-xs bg-teal-100 text-teal-800 font-bold px-2 py-0.5 rounded">AYUSH Native</span>
+                    </div>
+
+                    <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 text-xs space-y-2">
+                        <p class="font-bold text-slate-800">Dr. Sunita Verma (BAMS, MD AYUSH)</p>
+                        <p class="text-slate-500">Next Slot: <span class="text-teal-700 font-bold">11:15 AM Today</span></p>
+                    </div>
+
+                    <button onclick="bookSlot()" class="w-full bg-slate-900 text-white font-semibold text-xs py-3 rounded-xl hover:bg-slate-800">
+                        Select Hospital ➔
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="w-full text-center p-4 text-xs text-slate-400 border-t border-gray-200/80 bg-[#f4f4f2]">
+        Smart India Hackathon 2026 • Problem Statement SIH 26047 • Team Medinexus
+    </footer>
+
+    <script>
+        function showPage(page) {
+            document.getElementById('page-landing').classList.add('hidden');
+            document.getElementById('page-patient').classList.add('hidden');
+            document.getElementById('page-doctor').classList.add('hidden');
+            document.getElementById('page-care_nav').classList.add('hidden');
+
+            if (page === 'landing') {
+                document.getElementById('page-landing').classList.remove('hidden');
+            } else if (page === 'patient') {
+                document.getElementById('page-patient').classList.remove('hidden');
+                goPatientStep(1);
+            } else if (page === 'doctor') {
+                document.getElementById('page-doctor').classList.remove('hidden');
+            } else if (page === 'care_nav') {
+                document.getElementById('page-care_nav').classList.remove('hidden');
+            }
+        }
+
+        function goPatientStep(s) {
+            document.getElementById('pstep-1-content').classList.add('hidden');
+            document.getElementById('pstep-2-content').classList.add('hidden');
+            document.getElementById('pstep-3-content').classList.add('hidden');
+
+            document.getElementById('pstep-1').className = "p-3.5 rounded-xl border bg-white text-slate-500 border-gray-200";
+            document.getElementById('pstep-2').className = "p-3.5 rounded-xl border bg-white text-slate-500 border-gray-200";
+            document.getElementById('pstep-3').className = "p-3.5 rounded-xl border bg-white text-slate-500 border-gray-200";
+
+            if (s === 1) {
+                document.getElementById('pstep-1-content').classList.remove('hidden');
+                document.getElementById('pstep-1').className = "p-3.5 rounded-xl border bg-slate-900 text-white";
+            } else if (s === 2) {
+                document.getElementById('pstep-2-content').classList.remove('hidden');
+                document.getElementById('pstep-2').className = "p-3.5 rounded-xl border bg-slate-900 text-white";
+            } else if (s === 3) {
+                document.getElementById('pstep-3-content').classList.remove('hidden');
+                document.getElementById('pstep-3').className = "p-3.5 rounded-xl border bg-slate-900 text-white";
+            }
+        }
+
+        function togglePMic() {
+            const btn = document.getElementById('p-mic-btn');
+            if (btn.innerText.includes('Hold')) {
+                btn.innerText = '🎙️ Listening (Bhashini Engine Active)...';
+                btn.className = "flex-1 bg-rose-600 text-white font-semibold text-xs py-3 rounded-xl animate-pulse";
+            } else {
+                btn.innerText = '🎙️ Hold to Speak (Bhashini Engine)';
+                btn.className = "flex-1 bg-teal-700 text-white font-semibold text-xs py-3 rounded-xl hover:bg-teal-800 transition";
+            }
+        }
+
+        function grantConsentAndPush() {
+            alert('✅ DPDP Act 2023 Explicit Consent Granted! Pushing Summary to Doctor Dashboard...');
+            showPage('doctor');
+        }
+
+        function doctorApprove() {
+            const badge = document.getElementById('doc-status-badge');
+            badge.innerText = "Status: VERIFIED & CONFIRMED ✅";
+            badge.className = "bg-teal-100 text-teal-800 font-bold text-xs px-3 py-1.5 rounded-full border border-teal-300";
+            alert('✅ Verified by Doctor with Digital Signature! FHIR R4 Bundle Created & Transferred.');
+        }
+
+        function bookSlot() {
+            const btn = document.getElementById('book-btn');
+            btn.innerText = "Appointment Confirmed! (Booking ID: BK-88402) ✅";
+            btn.className = "w-full bg-teal-700 text-white font-semibold text-xs py-3 rounded-xl";
+            alert('🎉 Appointment Booked! Verified Case File Transferred via FHIR Standard.');
+        }
+    </script>
+</body>
+</html>

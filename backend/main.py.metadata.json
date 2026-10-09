@@ -1,0 +1,5 @@
+{
+  "summary": "FastAPI main application module for MediKiosk server providing API endpoints for intake, OCR, doctor dashboard, and care navigation.",
+  "updatedAt": "2026-09-07T11:10:13.851234100Z",
+  "userFacing": true
+}
