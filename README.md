@@ -1,7 +1,5 @@
-# 🏥 MediKiosk — AI Clinical Intake & Care Navigation Platform
+#  MediKiosk — AI Clinical Intake & Care Navigation Platform
 
-> **Smart India Hackathon 2026** • Problem Statement ID: `SIH26047`  
-> **Nodal Ministry:** Ministry of AYUSH, Government of India  
 > **Repository:** [AditiPaul_Medikiosk_platform](https://github.com/Aditipaul17/AditiPaul_Medikiosk_platform)
 
 ---
@@ -12,20 +10,20 @@
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-- **🗣️ Multilingual Voice & Touch Intake:** Spoken voice intake across 15+ Indian languages with touch body mapping and accessibility support.
-- **🚨 Emergency Red-Flag Triage:** Real-time detection of high-risk conditions (Acute Coronary Syndrome, FAST stroke protocol, acute respiratory distress).
-- **📋 SOCRATES Clinical Questioning:** Structured elicitation engine evaluating Site, Onset, Character, Radiation, Associations, Time course, Exacerbating/relieving factors, and Severity.
-- **🌿 AYUSH Dashavidha Pariksha:** Clinical assessment aligning with traditional AYUSH diagnostic parameters (Prakriti, Sara, Samhanana, etc.).
-- **📄 Dual OCR & Prescription Extraction:** Extracts entity details from uploaded prescriptions and lab reports.
-- **🩺 Doctor OPD Verification Dashboard:** Streamlined verification queue enabling clinicians to edit, annotate, sign, and validate pre-generated clinical summaries.
-- **🏥 Care Navigation & Appointment Booking:** Geolocation-based discovery of nearby healthcare facilities and specialists.
-- **🔒 DPDP Act 2023 & FHIR R4 Compliance:** Explicit patient consent management and interoperable FHIR R4 Patient Summary bundles ready for ABDM integration.
+- ** Multilingual Voice & Touch Intake:** Spoken voice intake across 15+ Indian languages with touch body mapping and accessibility support.
+- ** Emergency Red-Flag Triage:** Real-time detection of high-risk conditions (Acute Coronary Syndrome, FAST stroke protocol, acute respiratory distress).
+- ** SOCRATES Clinical Questioning:** Structured elicitation engine evaluating Site, Onset, Character, Radiation, Associations, Time course, Exacerbating/relieving factors, and Severity.
+- ** AYUSH Dashavidha Pariksha:** Clinical assessment aligning with traditional AYUSH diagnostic parameters (Prakriti, Sara, Samhanana, etc.).
+- ** Dual OCR & Prescription Extraction:** Extracts entity details from uploaded prescriptions and lab reports.
+- ** Doctor OPD Verification Dashboard:** Streamlined verification queue enabling clinicians to edit, annotate, sign, and validate pre-generated clinical summaries.
+- ** Care Navigation & Appointment Booking:** Geolocation-based discovery of nearby healthcare facilities and specialists.
+- ** DPDP Act 2023 & FHIR R4 Compliance:** Explicit patient consent management and interoperable FHIR R4 Patient Summary bundles ready for ABDM integration.
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -44,7 +42,7 @@
 
 ---
 
-## 💻 Tech Stack
+##  Tech Stack
 
 ### Frontend
 - **Framework:** [Next.js](https://nextjs.org/) (App Router, Turbopack)
@@ -62,7 +60,7 @@
 
 ---
 
-## 📁 Repository Structure
+##  Repository Structure
 
 ```text
 Medikiosk/
@@ -84,7 +82,7 @@ Medikiosk/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 - **Node.js:** v18 or later (v20+ recommended)
@@ -93,16 +91,7 @@ Medikiosk/
 
 ---
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Aditipaul17/AditiPaul_Medikiosk_platform.git
-cd AditiPaul_Medikiosk_platform
-```
-
----
-
-### 2. Run the Backend API Server
+### 1. Run the Backend API Server
 
 Open a terminal and navigate to `backend/`:
 
@@ -122,7 +111,7 @@ python -m uvicorn main:app --reload --port 8000
 
 ---
 
-### 3. Run the Frontend Application
+### 2. Run the Frontend Application
 
 Open a second terminal and navigate to `frontend/`:
 
@@ -140,7 +129,7 @@ npm run dev
 
 ---
 
-## 🔌 API Endpoints Reference
+##  API Endpoints Reference
 
 | Method | Endpoint | Description |
 |---|---|---|
@@ -154,15 +143,8 @@ npm run dev
 
 ---
 
-## 🔒 Security & Compliance
+##  Security & Compliance
 
 - **DPDP Act 2023:** Mandatory, granular consent gates before records are stored or transmitted.
 - **ABDM / ABHA Integration:** Ready for Ayushman Bharat Digital Mission interoperability.
 - **Human-in-the-Loop:** Clinical AI acts purely as an assistive intake tool; doctors retain 100% diagnostic and prescription authority.
-
----
-
-## 👥 Contributors
-
-- **Aditi Paul** ([@Aditipaul17](https://github.com/Aditipaul17))
-- Team **Medinexus**
