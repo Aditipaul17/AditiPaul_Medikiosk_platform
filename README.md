@@ -5,6 +5,19 @@
 
 ---
 
+## 🌐 Live Deployment Links
+
+| Service / Portal | Public Access URL | Description |
+| :--- | :--- | :--- |
+| 🏥 **Main Kiosk Intake** | [https://learned-hello-workshops-long.trycloudflare.com](https://learned-hello-workshops-long.trycloudflare.com) | Patient intake, interactive body mapping & emergency triage |
+| 🛡️ **Admin Dashboard** | [https://learned-hello-workshops-long.trycloudflare.com/admin/dashboard](https://learned-hello-workshops-long.trycloudflare.com/admin/dashboard) | Doctor credentials, DBMS stats & DPDP Act compliance audit trail |
+| 🔐 **Admin Login** | [https://learned-hello-workshops-long.trycloudflare.com/admin/login](https://learned-hello-workshops-long.trycloudflare.com/admin/login) | Admin ID: `ADM-001` • Password: `admin123` |
+| 🩺 **Doctor OPD Portal** | [https://learned-hello-workshops-long.trycloudflare.com/doctor/dashboard](https://learned-hello-workshops-long.trycloudflare.com/doctor/dashboard) | Clinician OPD queue, summary editing & digital sign-off |
+| ⚡ **Backend API Server** | [https://gerald-chair-overseas-ballot.trycloudflare.com](https://gerald-chair-overseas-ballot.trycloudflare.com) | FastAPI clinical engine & DBMS health check |
+| 📖 **Interactive API Docs** | [https://gerald-chair-overseas-ballot.trycloudflare.com/docs](https://gerald-chair-overseas-ballot.trycloudflare.com/docs) | Swagger UI for all REST endpoints & schemas |
+
+---
+
 ## 📌 Overview
 
 **MediKiosk** transforms crowded outpatient department (OPD) intake into a zero-barrier, doctor-ready workflow. By leveraging AI-powered multi-lingual voice intake, adaptive clinical questioning, vision OCR for handwritten prescriptions, and emergency red-flag triage, MediKiosk converts rushed OPD interactions into structured, **ABDM-compliant FHIR R4** clinical summaries.
