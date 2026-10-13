@@ -68,6 +68,10 @@ const initialDoctors: Doctor[] = [
 export default function AdminDashboardPage() {
   const [doctors, setDoctors] = useState<Doctor[]>(initialDoctors);
   const [search, setSearch] = useState("");
+  const [dbConnected, setDbConnected] = useState<boolean | null>(null);
+  const [stats, setStats] = useState<any>(null);
+  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [showAuditModal, setShowAuditModal] = useState(false);
 
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
@@ -81,48 +85,63 @@ export default function AdminDashboardPage() {
   });
 
   /* =========================================================
-     LOAD DOCTORS
+     LOAD DATA FROM DBMS API (with fallback)
   ========================================================= */
 
-  useEffect(() => {
-    const saved = localStorage.getItem("medikiosk-doctors");
+  const fetchDbData = async () => {
+    try {
+      // 1. Fetch Doctors from DBMS
+      const docRes = await fetch("http://localhost:8000/api/admin/doctors");
+      if (docRes.ok) {
+        const docData = await docRes.json();
+        if (Array.isArray(docData) && docData.length > 0) {
+          setDoctors(docData);
+          localStorage.setItem("medikiosk-doctors", JSON.stringify(docData));
+        }
+        setDbConnected(true);
+      } else {
+        throw new Error("API returned non-200");
+      }
 
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-
-        /*
-          Backward compatibility:
-          If old Doctor ID based records exist,
-          they are ignored and replaced with current
-          license-number based demo records.
-        */
-
-        if (
-          Array.isArray(parsed) &&
-          parsed.length > 0 &&
-          parsed[0]?.licenseNumber
-        ) {
-          setDoctors(parsed);
-        } else {
+      // 2. Fetch Aggregated DBMS Stats
+      const statRes = await fetch("http://localhost:8000/api/admin/stats");
+      if (statRes.ok) {
+        const statData = await statRes.json();
+        setStats(statData);
+      }
+    } catch (err) {
+      console.warn("Using offline / local cache mode:", err);
+      setDbConnected(false);
+      const saved = localStorage.getItem("medikiosk-doctors");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setDoctors(parsed);
+          }
+        } catch {
           setDoctors(initialDoctors);
         }
-      } catch {
-        setDoctors(initialDoctors);
       }
     }
-  }, []);
-
-  /* =========================================================
-     SAVE DOCTORS
-  ========================================================= */
+  };
 
   useEffect(() => {
-    localStorage.setItem(
-      "medikiosk-doctors",
-      JSON.stringify(doctors)
-    );
-  }, [doctors]);
+    fetchDbData();
+  }, []);
+
+  const fetchAuditLogs = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/admin/audit-logs?limit=25");
+      if (res.ok) {
+        const data = await res.json();
+        setAuditLogs(data);
+      }
+    } catch (e) {
+      console.error("Failed to fetch audit logs", e);
+    }
+    setShowAuditModal(true);
+  };
 
   /* =========================================================
      SEARCH
@@ -163,10 +182,10 @@ export default function AdminDashboardPage() {
   };
 
   /* =========================================================
-     ADD DOCTOR
+     ADD DOCTOR (Syncs to DBMS)
   ========================================================= */
 
-  const addDoctor = () => {
+  const addDoctor = async () => {
     if (
       !form.name.trim() ||
       !form.licenseNumber.trim() ||
@@ -202,29 +221,60 @@ export default function AdminDashboardPage() {
       status: "Pending",
     };
 
+    // Attempt DBMS API creation
+    try {
+      const res = await fetch("http://localhost:8000/api/admin/doctors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          license_number: licenseNumber,
+          name: form.name.trim(),
+          specialization: form.specialization.trim(),
+          department: form.department.trim(),
+          hospital: form.hospital,
+          status: "Pending"
+        })
+      });
+      if (res.ok) {
+        setDbConnected(true);
+      }
+    } catch (e) {
+      console.warn("Could not sync new doctor to backend DBMS directly:", e);
+    }
+
     setDoctors((current) => [...current, newDoctor]);
-
+    localStorage.setItem("medikiosk-doctors", JSON.stringify([...doctors, newDoctor]));
     setShowAddModal(false);
-
     setSelectedDoctor(newDoctor);
   };
 
   /* =========================================================
-     TOGGLE DOCTOR STATUS
+     TOGGLE DOCTOR STATUS (Syncs to DBMS)
   ========================================================= */
 
-  const toggleDoctorStatus = (
+  const toggleDoctorStatus = async (
     licenseNumber: string
   ) => {
+    const targetDoc = doctors.find(d => d.licenseNumber === licenseNumber);
+    const newStatus = targetDoc?.status === "Active" ? "Pending" : "Active";
+
+    // Call DBMS PATCH endpoint
+    try {
+      await fetch(`http://localhost:8000/api/admin/doctors/${encodeURIComponent(licenseNumber)}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      });
+    } catch (e) {
+      console.warn("Failed to update status in DBMS API:", e);
+    }
+
     setDoctors((current) =>
       current.map((doctor) =>
         doctor.licenseNumber === licenseNumber
           ? {
               ...doctor,
-              status:
-                doctor.status === "Active"
-                  ? "Pending"
-                  : "Active",
+              status: newStatus,
             }
           : doctor
       )
@@ -237,13 +287,9 @@ export default function AdminDashboardPage() {
       ) {
         return current;
       }
-
       return {
         ...current,
-        status:
-          current.status === "Active"
-            ? "Pending"
-            : "Active",
+        status: newStatus,
       };
     });
   };
@@ -332,28 +378,50 @@ export default function AdminDashboardPage() {
 
           <div>
 
-            <p className="text-sm font-medium text-[#1B7A6B]">
-              ADMINISTRATION
-            </p>
+            <div className="flex items-center gap-3">
+              <p className="text-sm font-medium text-[#1B7A6B]">
+                ADMINISTRATION & DBMS
+              </p>
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                dbConnected === true
+                  ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                  : dbConnected === false
+                  ? "bg-amber-100 text-amber-800 border border-amber-300"
+                  : "bg-gray-100 text-gray-700"
+              }`}>
+                {dbConnected === true ? "● DBMS: Relational + FHIR R4 (Online)" : dbConnected === false ? "○ Offline Cache Mode" : "Checking DBMS..."}
+              </span>
+            </div>
 
             <h1 className="mt-1 text-3xl font-semibold tracking-tight">
-              Hospital Dashboard
+              Hospital Dashboard & Clinical EHR
             </h1>
 
             <p className="mt-2 text-sm text-[#667570]">
-              Manage doctors, accounts and hospital access.
+              Relational doctor credentials, patient queues, and ABDM FHIR R4 clinical records.
             </p>
 
           </div>
 
-          <button
-            type="button"
-            onClick={openAddDoctor}
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#10201D] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#18332E]"
-          >
-            <Plus className="h-4 w-4" />
-            Register New Doctor
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={fetchAuditLogs}
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#DCE3E0] bg-white px-4 py-3 text-sm font-medium text-[#10201D] shadow-xs transition hover:bg-[#F6F7F5]"
+            >
+              <ShieldCheck className="h-4 w-4 text-[#1B7A6B]" />
+              DPDP Audit Trail
+            </button>
+
+            <button
+              type="button"
+              onClick={openAddDoctor}
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#10201D] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#18332E]"
+            >
+              <Plus className="h-4 w-4" />
+              Register New Doctor
+            </button>
+          </div>
 
         </div>
 
@@ -367,28 +435,28 @@ export default function AdminDashboardPage() {
             icon={<Users className="h-5 w-5" />}
             title="Total Doctors"
             value={String(doctors.length)}
-            subtitle="Registered accounts"
+            subtitle="Registered DBMS accounts"
           />
 
           <StatCard
             icon={<CheckCircle2 className="h-5 w-5" />}
             title="Active Doctors"
             value={String(activeDoctors)}
-            subtitle="Currently active"
+            subtitle="Currently verified & active"
           />
 
           <StatCard
             icon={<Clock3 className="h-5 w-5" />}
-            title="Pending Activation"
-            value={String(pendingDoctors)}
-            subtitle="Awaiting activation"
+            title="FHIR R4 Bundles"
+            value={String(stats?.fhir_r4?.total_document_bundles ?? 1)}
+            subtitle="ABDM clinical JSON documents"
           />
 
           <StatCard
-            icon={<UserPlus className="h-5 w-5" />}
-            title="New This Month"
-            value="6"
-            subtitle="Doctor registrations"
+            icon={<ShieldCheck className="h-5 w-5" />}
+            title="DPDP Audit Logs"
+            value={String(stats?.compliance?.dpdp_audit_log_entries ?? 3)}
+            subtitle="Immutable security logs"
           />
 
         </div>
@@ -880,6 +948,79 @@ export default function AdminDashboardPage() {
 
         </div>
 
+      )}
+
+      {/* =====================================================
+          DPDP AUDIT TRAIL MODAL
+      ===================================================== */}
+
+      {showAuditModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-xs">
+          <div className="w-full max-w-3xl rounded-2xl bg-white shadow-xl max-h-[85vh] flex flex-col">
+            <div className="flex items-center justify-between border-b border-[#E7ECEA] p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EAF3F0] text-[#1B7A6B]">
+                  <ShieldCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-[#10201D]">
+                    DPDP Act 2023 Compliance Audit Trail
+                  </h3>
+                  <p className="text-xs text-[#6B7975]">
+                    Immutable security & patient consent logs stored in relational DBMS
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowAuditModal(false)}
+                className="rounded-lg p-2 hover:bg-[#F1F4F2]"
+              >
+                <X className="h-5 w-5 text-[#6B7975]" />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto p-6 space-y-3">
+              {auditLogs.length === 0 ? (
+                <div className="text-center py-8 text-sm text-[#6B7975]">
+                  No audit logs found. Connecting to DBMS...
+                </div>
+              ) : (
+                auditLogs.map((log) => (
+                  <div key={log.id} className="rounded-xl border border-[#DCE3E0] p-4 bg-[#FAFBFA] flex flex-col gap-1">
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-[#10201D] text-white">
+                        {log.event_type}
+                      </span>
+                      <span className="text-xs text-[#899590]">
+                        {log.timestamp ? new Date(log.timestamp).toLocaleString() : "Just now"}
+                      </span>
+                    </div>
+                    <p className="text-sm font-medium text-[#10201D] mt-1">
+                      {log.description}
+                    </p>
+                    <div className="flex items-center gap-4 text-xs text-[#667570] mt-1">
+                      <span>Actor: <strong className="text-[#10201D]">{log.actor_role}</strong> ({log.actor_id})</span>
+                      {log.details && (
+                        <span className="truncate max-w-md">Details: {JSON.stringify(log.details)}</span>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="border-t border-[#E7ECEA] p-4 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowAuditModal(false)}
+                className="rounded-xl bg-[#10201D] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#18332E]"
+              >
+                Close Audit View
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
     </main>

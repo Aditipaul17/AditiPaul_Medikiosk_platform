@@ -36,3 +36,8 @@ Thumbs.db
 # Turbopack & Next agent files
 *.tsbuildinfo
 next-env.d.ts
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3

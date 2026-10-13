@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  # ---------------------------------------------------------------------------
+  # 1. Relational DBMS (PostgreSQL 16)
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: medikiosk_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-medikiosk}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-medikiosk_secure_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-medikiosk_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-medikiosk} -d ${POSTGRES_DB:-medikiosk_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # 2. FastAPI Clinical Engine & DBMS Server
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: medikiosk_backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-medikiosk}:${POSTGRES_PASSWORD:-medikiosk_secure_2026}@postgres:5432/${POSTGRES_DB:-medikiosk_db}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ---------------------------------------------------------------------------
+  # 3. Next.js Production Web Application
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: medikiosk_frontend
+    restart: always
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local

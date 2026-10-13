@@ -27,23 +27,23 @@
 ##  Architecture
 
 ```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        MediKiosk Architecture                          │
-└───────┬────────────────────────────────────────────────┬───────────────┘
-        │                                                │
-┌───────▼──────────────────────────┐     ┌───────────────▼──────────────┐
-│       Frontend (Next.js)         │     │       Backend (FastAPI)      │
-│  • Patient Intake Flow           │ ──> │  • RESTful API Endpoints     │
-│  • Interactive Body Map          │ <── │  • SOCRATES Clinical Engine  │
-│  • Doctor OPD Dashboard          │     │  • Red-Flag Triage Analyzer  │
-│  • Hospital Care Navigation      │     │  • FHIR R4 Serializer        │
-│  • Consent & Document Upload     │     │  • OCR & Entity Extraction   │
-└──────────────────────────────────┘     └──────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                                  MediKiosk Architecture                                │
+└───────┬───────────────────────────────┬────────────────────────────────┬───────────────┘
+        │                               │                                │
+┌───────▼───────────────────────┐ ┌─────▼──────────────────────────┐ ┌───▼──────────────┐
+│      Frontend (Next.js)       │ │       Backend (FastAPI)        │ │    DBMS Layer     │
+│  • Patient Intake Flow        │ │  • RESTful API Endpoints       │ │  • Relational:    │
+│  • Interactive Body Map       │ │  • SOCRATES Clinical Engine    │ │    PostgreSQL /   │
+│  • Doctor OPD Dashboard       │ │  • Red-Flag Triage Analyzer    │ │    SQLite         │
+│  • Admin Credential Portal    │ │  • FHIR R4 Serializer          │ │  • Document Store:│
+│  • Care Navigation & Consent  │ │  • DPDP Act Compliance Audit   │ │    MongoDB / JSON │
+└───────────────────────────────┘ └────────────────────────────────┘ └───────────────────┘
 ```
 
 ---
 
-##  Tech Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 - **Framework:** [Next.js](https://nextjs.org/) (App Router, Turbopack)
@@ -52,11 +52,12 @@
 - **Icons:** [Lucide React](https://lucide.dev/)
 - **Language:** TypeScript
 
-### Backend
+### Backend & DBMS
 - **Framework:** [FastAPI](https://fastapi.tiangolo.com/)
+- **Relational DBMS & ORM:** [SQLAlchemy](https://www.sqlalchemy.org/) (SQLite / PostgreSQL / MySQL)
+- **Document & Semi-Structured Store:** MongoDB / JSON (FHIR R4 Bundles)
+- **Standards:** HL7 FHIR R4, ABDM (Ayushman Bharat Digital Mission), DPDP Act 2023
 - **ASGI Server:** [Uvicorn](https://www.uvicorn.org/)
-- **Validation:** [Pydantic](https://docs.pydantic.dev/)
-- **Standards:** HL7 FHIR R4, ABDM (Ayushman Bharat Digital Mission)
 - **Language:** Python 3.9+
 
 ---
@@ -66,6 +67,9 @@
 ```text
 Medikiosk/
 ├── backend/
+│   ├── database.py           # DBMS connection, engine, and session management
+│   ├── models.py             # SQLAlchemy models (Patient, Doctor, Session, FHIR, Audit)
+│   ├── db_init.py            # Database schema migration and seeder script
 │   ├── clinical_engine.py    # SOCRATES framework, red-flag detection, AYUSH logic
 │   ├── fhir_formatter.py     # FHIR R4 bundle generation
 │   ├── main.py               # FastAPI application server and REST endpoints
