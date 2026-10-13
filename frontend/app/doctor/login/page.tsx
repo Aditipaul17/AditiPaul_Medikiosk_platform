@@ -697,7 +697,7 @@ export default function DoctorLoginPage() {
           </div>
 
           <p className="mt-8 text-center text-xs text-[#82918D]">
-            MEDIKIOSK · Smart India Hackathon 2026
+            MEDIKIOSK · Clinical OPD Verification System
           </p>
         </div>
       </section>

@@ -17,6 +17,8 @@ import {
   MessageCircle,
   Keyboard,
 } from "lucide-react";
+import PatientNav from "../../components/PatientNav";
+import ClinicalStepper from "../../components/ClinicalStepper";
 
 /* =========================================================
    TYPES
@@ -757,6 +759,39 @@ const questions: Question[] = [
       punjabi:
         "ਕੀ ਇਸ ਸਮੱਸਿਆ ਦੇ ਨਾਲ ਤੁਹਾਨੂੰ ਹੋਰ ਕੋਈ ਲੱਛਣ ਵੀ ਹਨ?",
     },
+
+    options: {
+      english: [
+        "None / No other symptoms",
+        "Headache",
+        "Nausea / Vomiting",
+        "Weakness & Fatigue",
+        "Body ache",
+        "Dizziness",
+        "Loss of appetite",
+        "Chills & Shivering",
+      ],
+      hindi: [
+        "कोई अन्य लक्षण नहीं",
+        "सिरदर्द",
+        "उल्टी / मतली",
+        "कमजोरी और थकान",
+        "बदन दर्द",
+        "चक्कर आना",
+        "भूख न लगना",
+        "कंपकंपी / ठंड लगना",
+      ],
+      marathi: [
+        "इतर कोणतेही लक्षण नाही",
+        "डोकेदुखी",
+        "उलटी / मळमळ",
+        "अशक्तपणा आणि थकवा",
+        "अंगदुखी",
+        "चक्कर येणे",
+        "भूक न लागणे",
+        "थंडी वाजणे",
+      ],
+    },
   },
 
   {
@@ -784,6 +819,39 @@ const questions: Question[] = [
         "നിങ്ങൾക്ക് നേരത്തെ ഉണ്ടായിരുന്ന ഏതെങ്കിലും രോഗമോ ആരോഗ്യ പ്രശ്നമോ ഉണ്ടോ?",
       punjabi:
         "ਕੀ ਤੁਹਾਨੂੰ ਪਹਿਲਾਂ ਤੋਂ ਕੋਈ ਬਿਮਾਰੀ ਜਾਂ ਸਿਹਤ ਸਮੱਸਿਆ ਹੈ?",
+    },
+
+    options: {
+      english: [
+        "No past illness (Healthy)",
+        "Diabetes",
+        "High Blood Pressure (BP)",
+        "Thyroid condition",
+        "Asthma / Allergy",
+        "Heart condition",
+        "Acidity / Gastric",
+        "Previous surgery",
+      ],
+      hindi: [
+        "कोई पुरानी बीमारी नहीं (स्वस्थ)",
+        "डायबिटीज / शुगर",
+        "हाई ब्लड प्रेशर (बीपी)",
+        "थायराइड",
+        "अस्थमा / दमा",
+        "हृदय रोग",
+        "एसिडिटी / गैस",
+        "पिछली सर्जरी / ऑपरेशन",
+      ],
+      marathi: [
+        "कोणताही जुना आजार नाही (निरोगी)",
+        "मधुमेह / शुगर",
+        "उच्च रक्तदाब (बीपी)",
+        "थायरॉईड",
+        "अस्थमा / दमा",
+        "हृदयरोग",
+        "ऍसिडिटी / पित्त",
+        "मागील शस्त्रक्रिया",
+      ],
     },
   },
 
@@ -813,6 +881,39 @@ const questions: Question[] = [
       punjabi:
         "ਕੀ ਤੁਸੀਂ ਇਸ ਸਮੇਂ ਕੋਈ ਦਵਾਈ ਜਾਂ ਨਿਯਮਿਤ ਇਲਾਜ ਲੈ ਰਹੇ ਹੋ?",
     },
+
+    options: {
+      english: [
+        "No regular medicines",
+        "BP medication",
+        "Diabetes pills / Insulin",
+        "Thyroid medication",
+        "Painkiller / Paracetamol",
+        "Antacid / Digestion syrup",
+        "Daily multivitamins",
+        "Antibiotics",
+      ],
+      hindi: [
+        "कोई नियमित दवा नहीं",
+        "ब्लड प्रेशर की दवा",
+        "शुगर की दवा / इंसुलिन",
+        "थायराइड की दवा",
+        "दर्द निवारक / पैरासिटामोल",
+        "गैस / एंटासिड दवा",
+        "विटामिन / सप्लीमेंट",
+        "एंटीबायोटिक",
+      ],
+      marathi: [
+        "कोणतीही नियमित औषधे नाहीत",
+        "ब्लड प्रेशरचे औषध",
+        "मधुमेहाचे औषध / इन्सुलिन",
+        "थायरॉईडचे औषध",
+        "पेनकिलर / पॅरासिटामॉल",
+        "पित्ताचे / गॅसचे औषध",
+        "व्हिटॅमिन्स / सप्लिमेंट्स",
+        "अँटीबायोटिक्स",
+      ],
+    },
   },
 
   {
@@ -840,6 +941,33 @@ const questions: Question[] = [
         "ഏതെങ്കിലും മരുന്നിനോടോ ഭക്ഷണത്തോടോ മറ്റേതെങ്കിലും വസ്തുവിനോടോ നിങ്ങൾക്ക് അലർജി ഉണ്ടോ?",
       punjabi:
         "ਕੀ ਤੁਹਾਨੂੰ ਕਿਸੇ ਦਵਾਈ, ਖਾਣੇ ਜਾਂ ਕਿਸੇ ਹੋਰ ਚੀਜ਼ ਤੋਂ ਐਲਰਜੀ ਹੈ?",
+    },
+
+    options: {
+      english: [
+        "No known allergies",
+        "Medicine allergy (Penicillin/Sulfa)",
+        "Dust & Pollen allergy",
+        "Food allergy (Peanuts/Milk)",
+        "Skin rash / Eczema",
+        "Seasonal cold allergy",
+      ],
+      hindi: [
+        "कोई एलर्जी नहीं",
+        "दवा से एलर्जी (पेनिसिलिन आदि)",
+        "धूल और पराग से एलर्जी",
+        "खाद्य पदार्थ से एलर्जी",
+        "त्वचा पर चकत्ते / खुजली",
+        "मौसमी सर्दी-एलर्जी",
+      ],
+      marathi: [
+        "कोणतीही ऍलर्जी नाही",
+        "औषधांची ऍलर्जी",
+        "धुळीची ऍलर्जी",
+        "अन्नाची ऍलर्जी",
+        "त्वचेची ऍलर्जी / खाज",
+        "हंगामी सर्दी ऍलर्जी",
+      ],
     },
   },
 
@@ -869,6 +997,33 @@ const questions: Question[] = [
       punjabi:
         "ਕੀ ਤੁਸੀਂ ਇਸ ਸਮੱਸਿਆ ਲਈ ਪਹਿਲਾਂ ਡਾਕਟਰ ਨਾਲ ਸਲਾਹ ਕੀਤੀ ਹੈ ਜਾਂ ਇਲਾਜ ਲਿਆ ਹੈ?",
     },
+
+    options: {
+      english: [
+        "First time consultation",
+        "Visited local doctor / GP",
+        "Took over-the-counter tablets",
+        "Tried home remedies",
+        "Took Ayurvedic / Homeopathic care",
+        "Had blood / lab tests done",
+      ],
+      hindi: [
+        "पहली बार डॉक्टर को दिखा रहे हैं",
+        "स्थानीय डॉक्टर / क्लीनिक में दिखाया",
+        "मेडिकल स्टोर से दवा ली",
+        "घरेलू नुस्खे आजमाए",
+        "आयुर्वेदिक / होम्योपैथिक इलाज लिया",
+        "खून / लैब जांच करवाई है",
+      ],
+      marathi: [
+        "पहिल्यांदाच डॉक्टरांचा सल्ला घेत आहे",
+        "स्थानिक डॉक्टरांकडे गेलो होतो",
+        "मेडिकलमधून औषध घेतले",
+        "घरगुती उपाय केले",
+        "आयुर्वेदिक / होमिओपॅथिक उपचार घेतले",
+        "रक्त / लॅब तपासणी केली आहे",
+      ],
+    },
   },
 
   {
@@ -896,6 +1051,33 @@ const questions: Question[] = [
         "നിങ്ങളുടെ ആരോഗ്യത്തെക്കുറിച്ച് ഡോക്ടർ അറിയേണ്ട മറ്റേതെങ്കിലും വിവരമുണ്ടോ?",
       punjabi:
         "ਕੀ ਤੁਹਾਡੀ ਸਿਹਤ ਬਾਰੇ ਕੋਈ ਹੋਰ ਜਾਣਕਾਰੀ ਹੈ ਜੋ ਤੁਸੀਂ ਡਾਕਟਰ ਨੂੰ ਦੱਸਣਾ ਚਾਹੁੰਦੇ ਹੋ?",
+    },
+
+    options: {
+      english: [
+        "Nothing else to add",
+        "Difficulty sleeping (Insomnia)",
+        "Feeling very stressed / anxious",
+        "Need a medical prescription",
+        "Need a medical certificate / leave",
+        "Family history of similar problem",
+      ],
+      hindi: [
+        "कुछ और नहीं बताना (सब बता दिया)",
+        "नींद न आने की समस्या",
+        "तनाव / घबराहट महसूस होना",
+        "दवा का नया पर्चा चाहिए",
+        "मेडिकल सर्टिफिकेट / अवकाश पत्र चाहिए",
+        "परिवार में किसी को यही समस्या है",
+      ],
+      marathi: [
+        "इतर काही सांगायचे नाही",
+        "झोप न येण्याची समस्या",
+        "तणाव / अस्वस्थता जाणवणे",
+        "नवीन प्रिस्क्रिप्शन हवे आहे",
+        "वैद्यकीय प्रमाणपत्र / रजेचा दाखला हवा",
+        "कुटुंबात कोणालाही हाच त्रास आहे",
+      ],
     },
   },
 ];
@@ -967,18 +1149,21 @@ function detectRedFlags(allAnswers: Record<string, string>): RedFlagResult {
   const combined = values.join(" | ");
   const reasons: string[] = [];
 
-  const breathingRedFlag =
-    /(severe|very severe|can't breathe|cannot breathe|difficulty breathing|breathing difficulty|shortness of breath|breathlessness|choking|not able to breathe|सांस लेने में (बहुत )?परेशानी|सांस नहीं आ रही|सांस लेने में दिक्कत|श्वास घेण्यास (खूप )?त्रास|श्वास घेता येत नाही|श्वास घेण्यास अडचण|શ્વાસ લેવામાં (ખૂબ )?તકલીફ|શ્વાસ લેવામાં મુશ્કેલી|மூச்சுத்திணறல்|சுவாசிக்க முடியவில்லை|శ్వాస తీసుకోవడంలో ఇబ్బంది|ಉಸಿರಾಟದ ತೊಂದರೆ|ശ്വാസംമുട്ടൽ)/i.test(combined);
+  const severe =
+    /(severe|very severe|extreme|unbearable|बहुत गंभीर|गंभीर|बहुत तेज|असहनीय|तीव्र|अत्यंत तीव्र|ખૂબ ગંભીર|તીવ્ર|மிகவும் தீவிரமானது|தீவிரமான|చాలా తీవ్రమైన|తీవ్రమైన|ಬಹಳ ತೀವ್ರ|ತೀವ್ರ|വളരെ ഗുരുതരമായ|ഗുരുതരമായ)/i.test(combined);
 
-  if (breathingRedFlag) {
+  const criticalBreathing =
+    /(can'?t breathe|cannot breathe|choking|not able to breathe|सांस नहीं आ रही|श्वास घेता येत नाही|சுவாசிக்க முடியவில்லை|ಉಸಿರಾಟ ನಿಲ್ಲುವುದು)/i.test(combined);
+
+  const generalBreathingIssue =
+    /(shortness of breath|breathlessness|difficulty breathing|breathing difficulty|breathing problem|सांस लेने में परेशानी|सांस लेने में दिक्कत|श्वास घेण्यास त्रास|श्वास घेण्यास अडचण|શ્વાસ લેવામાં તકલીફ|શ્વાસ લેવામાં મુશ્કેલી|மூச்சுத்திணறல்|శ్వాస తీసుకోవడంలో ఇబ్బంది|ಉಸಿರಾಟದ ತೊಂದರೆ|ശ്വാസംമുട്ടൽ)/i.test(combined);
+
+  if (criticalBreathing || (generalBreathingIssue && severe)) {
     reasons.push("Severe breathing difficulty");
   }
 
   const chestPain =
     /(chest pain|chest pressure|chest tightness|pain in chest|heart pain|सीने में दर्द|सीने में बहुत दर्द|सीने में दबाव|सीने में जकड़न|छातीत दुखणे|छातीत तीव्र वेदना|छातीत दडपण|છાતીમાં દુખાવો|છાતીમાં દબાણ|மார்பு வலி|மார்பில் அழுத்தம்|ఛాతి నొప్పి|ఎదె నొప్పి|ಎದೆ ನೋವು|നെഞ്ചുവേദന)/i.test(combined);
-
-  const severe =
-    /(severe|very severe|extreme|unbearable|बहुत गंभीर|गंभीर|बहुत तेज|असहनीय|तीव्र|अत्यंत तीव्र|ખૂબ ગંભીર|તીવ્ર|மிகவும் தீவிரமானது|தீவிரமான|చాలా తీవ్రమైన|తీవ్రమైన|ಬಹಳ ತೀವ್ರ|ತೀವ್ರ|വളരെ ഗുരുതരമായ|ഗുരുതരമായ)/i.test(combined);
 
   if (chestPain && severe) {
     reasons.push("Severe chest pain or pressure");
@@ -1049,7 +1234,9 @@ export default function PatientIntakePage() {
     current.questions[language];
 
   const options =
-    current.options?.[language] || [];
+    current.options?.[language] ||
+    current.options?.english ||
+    [];
 
   const progress =
     ((currentQuestion + 1) /
@@ -1104,32 +1291,18 @@ export default function PatientIntakePage() {
       try {
         const savedAnswers = JSON.parse(patientInterview);
         setAnswers(savedAnswers);
-
-        const savedRedFlag = detectRedFlags(savedAnswers);
-        if (savedRedFlag.detected) {
-          setRedFlag(savedRedFlag);
-          localStorage.setItem(
-            getRedFlagKey(patient.mobile),
-            JSON.stringify({
-              ...savedRedFlag,
-              patientId:
-                patient.id || `P-${getPatientKey(patient.mobile)}`,
-              patientMobile: getPatientKey(patient.mobile),
-              detectedAt: new Date().toISOString(),
-            })
-          );
-        }
       } catch {
         setAnswers({});
-        setRedFlag({ detected: false, reasons: [] });
       }
     } else {
       // Brand-new patient / fresh interview.
       setAnswers({});
-      setRedFlag({ detected: false, reasons: [] });
       setCurrentQuestion(0);
       setAnswer("");
     }
+    // Clean old emergency state when starting/resuming intake
+    localStorage.removeItem(getRedFlagKey(patient.mobile));
+    setRedFlag({ detected: false, reasons: [] });
   }, [router]);
 
   /* =======================================================
@@ -1370,13 +1543,12 @@ export default function PatientIntakePage() {
      SAVE ANSWER
   ======================================================= */
 
-  function saveAnswer() {
-    const trimmed =
-      answer.trim();
+  function saveAnswer(): Record<string, string> | null {
+    const trimmed = answer.trim();
 
     if (!trimmed) {
       setError(text.noAnswer);
-      return false;
+      return null;
     }
 
     const updatedAnswers = {
@@ -1390,7 +1562,7 @@ export default function PatientIntakePage() {
 
     if (!patient) {
       router.replace("/patient/login");
-      return false;
+      return null;
     }
 
     localStorage.setItem(
@@ -1398,33 +1570,10 @@ export default function PatientIntakePage() {
       JSON.stringify(updatedAnswers)
     );
 
-    // Run red-flag detection on the complete history collected so far.
-    const detectedRedFlag = detectRedFlags(updatedAnswers);
-
-    if (detectedRedFlag.detected) {
-      const redFlagRecord = {
-        ...detectedRedFlag,
-        patientId:
-          patient.id || `P-${getPatientKey(patient.mobile)}`,
-        patientMobile: getPatientKey(patient.mobile),
-        detectedAt: new Date().toISOString(),
-      };
-
-      localStorage.setItem(
-        getRedFlagKey(patient.mobile),
-        JSON.stringify(redFlagRecord)
-      );
-
-      setRedFlag(detectedRedFlag);
-    } else {
-      localStorage.removeItem(getRedFlagKey(patient.mobile));
-      setRedFlag({ detected: false, reasons: [] });
-    }
-
     // Remove legacy shared data so it can never be reused.
     localStorage.removeItem("medikiosk-interview");
 
-    return true;
+    return updatedAnswers;
   }
 
   /* =======================================================
@@ -1432,7 +1581,8 @@ export default function PatientIntakePage() {
   ======================================================= */
 
   function handleNext() {
-    if (!saveAnswer()) {
+    const updatedAnswers = saveAnswer();
+    if (!updatedAnswers) {
       return;
     }
 
@@ -1443,14 +1593,6 @@ export default function PatientIntakePage() {
       setIsListening(false);
     }
 
-    /*
-      RED FLAG -> IMMEDIATE SOS PATHWAY
-
-      saveAnswer() has already evaluated the complete history collected
-      so far and stored the patient-specific red-flag record.
-      Read that record here and immediately move the patient to the
-      emergency SOS screen instead of continuing the normal assessment.
-    */
     const patient = getCurrentPatient();
 
     if (!patient) {
@@ -1458,61 +1600,53 @@ export default function PatientIntakePage() {
       return;
     }
 
-    try {
-      const redFlagRaw = localStorage.getItem(
-        getRedFlagKey(patient.mobile)
-      );
-
-      if (redFlagRaw) {
-        const redFlagRecord = JSON.parse(redFlagRaw);
-
-        if (
-          redFlagRecord?.detected === true &&
-          Array.isArray(redFlagRecord?.reasons) &&
-          redFlagRecord.reasons.length > 0
-        ) {
-          localStorage.setItem(
-            getInterviewCompleteKey(patient.mobile),
-            "emergency"
-          );
-
-          /*
-            Stop normal intake immediately.
-            Emergency page handles:
-            - SOS declaration
-            - 108 ambulance call
-            - 112 emergency call
-            - GPS permission
-            - ambulance request
-            - nearby emergency hospitals
-          */
-          router.push("/patient/emergency");
-          return;
-        }
-      }
-    } catch {
-      // Continue normal flow if the local emergency record is invalid.
-    }
-
-    if (
-      currentQuestion ===
-      questions.length - 1
-    ) {
-      localStorage.setItem(
-        getInterviewCompleteKey(patient.mobile),
-        "true"
-      );
-
-      router.push(
-        "/patient/documents"
-      );
-
+    /*
+      ALLOW ANSWERING ALL 9 QUESTIONS:
+      If not on the last question yet, simply advance to the next question.
+      Never pop SOS during questions 1 through 8.
+    */
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion((prev) => prev + 1);
       return;
     }
 
-    setCurrentQuestion(
-      (prev) => prev + 1
+    /*
+      ALL 9 QUESTIONS ARE COMPLETED!
+      Now evaluate full clinical history for emergency red flags:
+    */
+    const finalRedFlag = detectRedFlags(updatedAnswers);
+
+    if (finalRedFlag.detected && Array.isArray(finalRedFlag.reasons) && finalRedFlag.reasons.length > 0) {
+      const redFlagRecord = {
+        ...finalRedFlag,
+        patientId: patient.id || `P-${getPatientKey(patient.mobile)}`,
+        patientMobile: getPatientKey(patient.mobile),
+        detectedAt: new Date().toISOString(),
+      };
+
+      localStorage.setItem(
+        getRedFlagKey(patient.mobile),
+        JSON.stringify(redFlagRecord)
+      );
+
+      localStorage.setItem(
+        getInterviewCompleteKey(patient.mobile),
+        "emergency"
+      );
+
+      setRedFlag(finalRedFlag);
+      router.push("/patient/emergency");
+      return;
+    }
+
+    // No emergency detected after completing all 9 questions -> proceed to documents
+    localStorage.removeItem(getRedFlagKey(patient.mobile));
+    localStorage.setItem(
+      getInterviewCompleteKey(patient.mobile),
+      "true"
     );
+
+    router.push("/patient/documents");
   }
 
   /* =======================================================
@@ -1569,41 +1703,9 @@ export default function PatientIntakePage() {
   return (
     <main className="min-h-screen bg-[#F6F7F5] flex flex-col">
 
-      {/* =================================================
-          HEADER
-      ================================================= */}
-
-      <header className="w-full px-4 sm:px-6 lg:px-10 py-4 sm:py-6 flex items-center justify-between">
-
-        <div className="flex items-center gap-2">
-
-          <div className="w-8 h-8 rounded-md bg-[#10201D] flex items-center justify-center">
-
-            <Activity
-              className="w-4 h-4 text-white"
-              strokeWidth={2.5}
-            />
-
-          </div>
-
-          <span className="font-semibold tracking-tight text-[#10201D]">
-            MEDIKIOSK
-          </span>
-
-        </div>
-
-        <Link
-          href="/patient/consent"
-          className="flex items-center gap-2 text-sm font-medium text-[#5C6B67] hover:text-[#10201D] cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-
-          <span className="hidden sm:inline">
-            Back
-          </span>
-        </Link>
-
-      </header>
+      {/* Unified Navigation & Stepper */}
+      <PatientNav />
+      <ClinicalStepper currentStep="intake" />
 
 
       {/* =================================================

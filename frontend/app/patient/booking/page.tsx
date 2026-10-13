@@ -18,6 +18,8 @@ import {
   Building2,
   ChevronDown,
 } from "lucide-react";
+import PatientNav from "../../components/PatientNav";
+import ClinicalStepper from "../../components/ClinicalStepper";
 
 type LanguageKey =
   | "english"
@@ -842,36 +844,9 @@ export default function PatientBookingPage() {
   return (
     <main className="min-h-screen bg-[#F6F7F5]">
 
-      {/* HEADER */}
-
-      <header className="px-4 sm:px-6 lg:px-10 py-4 sm:py-6 flex items-center justify-between">
-
-        <div className="flex items-center gap-2">
-
-          <div className="w-8 h-8 rounded-md bg-[#10201D] flex items-center justify-center">
-
-            <Activity className="w-4 h-4 text-white" />
-
-          </div>
-
-          <span className="font-semibold text-[#10201D]">
-            MEDIKIOSK
-          </span>
-
-        </div>
-
-        <Link
-          href="/patient/care-navigation"
-          className="flex items-center gap-2 text-sm font-medium text-[#66736F] hover:text-[#10201D] cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-
-          <span className="hidden sm:inline">
-            {t.back}
-          </span>
-        </Link>
-
-      </header>
+      {/* Unified Navigation & Stepper */}
+      <PatientNav />
+      <ClinicalStepper currentStep="booking" />
 
 
       {/* CONTENT */}

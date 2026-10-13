@@ -1,5 +1,6 @@
-#  MediKiosk — AI Clinical Intake & Care Navigation Platform
+# MediKiosk — AI Clinical Intake & Care Navigation Platform
 
+> **Ministry of AYUSH, Government of India** • Digital Clinical Initiative  
 > **Repository:** [AditiPaul_Medikiosk_platform](https://github.com/Aditipaul17/AditiPaul_Medikiosk_platform)
 
 ---

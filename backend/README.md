@@ -1,7 +1,6 @@
 # ⚡ MediKiosk Backend API Engine
 
-> **Smart India Hackathon 2026** • Problem Statement ID: `SIH26047`  
-> **Nodal Ministry:** Ministry of AYUSH, Government of India  
+> **Ministry of AYUSH, Government of India** • Digital Clinical Initiative  
 > **Team:** Medinexus  
 
 ---

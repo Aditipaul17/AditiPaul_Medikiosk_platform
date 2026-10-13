@@ -619,7 +619,7 @@ export default function DoctorDashboardPage() {
 
         {/* Footer */}
         <footer className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-[#DDE7E3] py-5 text-xs text-[#82918D] sm:flex-row">
-          <span>MEDIKIOSK · Smart India Hackathon 2026</span>
+          <span>MEDIKIOSK · Clinical OPD Verification System</span>
           <span className="flex items-center gap-1.5">
             <Activity className="h-3.5 w-3.5" />
             Doctor Portal

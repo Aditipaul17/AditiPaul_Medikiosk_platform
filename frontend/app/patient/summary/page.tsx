@@ -19,6 +19,8 @@ import {
   X,
   Save,
 } from "lucide-react";
+import PatientNav from "../../components/PatientNav";
+import ClinicalStepper from "../../components/ClinicalStepper";
 
 type LanguageKey =
   | "english"
@@ -706,39 +708,9 @@ export default function PatientSummaryPage() {
   return (
     <main className="min-h-screen bg-[#F6F7F5] flex flex-col">
 
-      {/* HEADER */}
-
-      <header className="w-full px-4 sm:px-6 lg:px-10 py-4 sm:py-6 flex items-center justify-between">
-
-        <div className="flex items-center gap-2">
-
-          <div className="w-8 h-8 rounded-md bg-[#10201D] flex items-center justify-center">
-
-            <Activity
-              className="w-4 h-4 text-white"
-              strokeWidth={2.5}
-            />
-
-          </div>
-
-          <span className="font-semibold tracking-tight text-[#10201D]">
-            MEDIKIOSK
-          </span>
-
-        </div>
-
-        <Link
-          href="/patient/documents"
-          className="flex items-center gap-2 text-sm font-medium text-[#5C6B67] hover:text-[#10201D] cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-
-          <span className="hidden sm:inline">
-            {t.back}
-          </span>
-        </Link>
-
-      </header>
+      {/* Unified Navigation & Stepper */}
+      <PatientNav />
+      <ClinicalStepper currentStep="summary" />
 
 
       {/* MAIN */}

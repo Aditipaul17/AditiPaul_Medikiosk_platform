@@ -1,6 +1,6 @@
 """
 MediKiosk FastAPI Application Server
-SIH 2026 - Problem Statement SIH26047 (Ministry of AYUSH)
+Ministry of AYUSH AI Case-Taking & Care Navigation Platform
 """
 
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
@@ -62,7 +62,7 @@ def read_root():
         "system": "MediKiosk AI Core Server",
         "status": "ONLINE",
         "version": "1.0.0",
-        "ministry": "Ministry of AYUSH (SIH 2026)",
+        "ministry": "Ministry of AYUSH (Government of India)",
         "timestamp": datetime.datetime.now().isoformat()
     }
 

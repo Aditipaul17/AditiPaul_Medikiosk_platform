@@ -6,6 +6,7 @@ import {
   Activity,
   AlertTriangle,
   ArrowLeft,
+  ArrowRight,
   CheckCircle2,
   MapPin,
   Navigation,
@@ -16,7 +17,11 @@ import {
   Siren,
   Ambulance,
   ExternalLink,
+  FileText,
+  Sparkles,
+  CalendarDays,
 } from "lucide-react";
+import PatientNav from "../../components/PatientNav";
 
 type Lang = "english" | "hindi" | "marathi";
 
@@ -44,6 +49,21 @@ const text = {
     requested: "Ambulance Request Created",
     requestText:
       "Your location is attached to the emergency request. In the production version, this request is sent to the connected ambulance dispatch service.",
+    connectedCareTitle: "Connected Clinical Services",
+    connectedCareSub:
+      "Access medical records, review AI summary, or book an appointment for clinical consultation.",
+    docsTitle: "Documents & Medical Records",
+    docsDesc:
+      "Upload or view prescriptions, test reports, and past medical history for emergency doctors.",
+    docsBtn: "Open Documents",
+    summaryTitle: "AI Clinical Summary",
+    summaryDesc:
+      "Review the structured clinical summary, recorded symptoms, and triage findings.",
+    summaryBtn: "View Summary",
+    bookingTitle: "Appointment Booking",
+    bookingDesc:
+      "Schedule priority hospital OPD consultation or follow-up doctor appointment.",
+    bookingBtn: "Book Appointment",
     hospitals: "Nearby Emergency Hospitals",
     hospitalsSub:
       "Emergency-capable hospitals available near your current location.",
@@ -76,6 +96,21 @@ const text = {
     requested: "एम्बुलेंस अनुरोध बनाया गया",
     requestText:
       "आपका स्थान emergency request के साथ जोड़ दिया गया है। Production version में यह connected ambulance dispatch service को भेजा जाएगा।",
+    connectedCareTitle: "जुड़ी हुई क्लिनिकल सेवाएं",
+    connectedCareSub:
+      "मेडिकल रिकॉर्ड देखें, AI सारांश जांचें, या क्लिनिकल परामर्श के लिए अपॉइंटमेंट बुक करें।",
+    docsTitle: "दस्तावेज़ और मेडिकल रिकॉर्ड्स",
+    docsDesc:
+      "पर्चे और लैब रिपोर्ट देखें या अपलोड करें ताकि आपातकालीन डॉक्टरों के पास पूरा इतिहास हो।",
+    docsBtn: "दस्तावेज़ खोलें",
+    summaryTitle: "AI क्लिनिकल सारांश",
+    summaryDesc:
+      "डॉक्टर के लिए तैयार क्लिनिकल सारांश, दर्ज लक्षण और ट्रायेज निष्कर्ष देखें।",
+    summaryBtn: "सारांश देखें",
+    bookingTitle: "अपॉइंटमेंट बुकिंग",
+    bookingDesc:
+      "प्राथमिकता ओपीडी परामर्श या डॉक्टर फॉलो-अप अपॉइंटमेंट बुक करें।",
+    bookingBtn: "अपॉइंटमेंट बुक करें",
     hospitals: "पास के आपातकालीन अस्पताल",
     hospitalsSub:
       "आपके वर्तमान स्थान के आसपास उपलब्ध emergency-capable hospitals।",
@@ -108,6 +143,21 @@ const text = {
     requested: "रुग्णवाहिका विनंती तयार झाली",
     requestText:
       "तुमचे लोकेशन emergency request सोबत जोडले आहे. Production version मध्ये ही विनंती connected ambulance dispatch service कडे पाठवली जाईल.",
+    connectedCareTitle: "संलग्न क्लिनिकल सेवा",
+    connectedCareSub:
+      "वैद्यकीय नोंदी पहा, AI सारांश तपासा किंवा क्लिनिकल सल्ल्यासाठी अपॉइंटमेंट बुक करा.",
+    docsTitle: "कागदपत्रे आणि वैद्यकीय नोंदी",
+    docsDesc:
+      "प्रिस्क्रिप्शन आणि लॅब अहवाल अपलोड करा जेणेकरून डॉक्टरांना संपूर्ण इतिहास उपलब्ध होईल.",
+    docsBtn: "कागदपत्रे उघडा",
+    summaryTitle: "AI क्लिनिकल सारांश",
+    summaryDesc:
+      "नोंदवलेली लक्षणे, ट्रायेज मूल्यांकन आणि AI सारांश तपासा.",
+    summaryBtn: "सारांश पहा",
+    bookingTitle: "अपॉइंटमेंट बुकिंग",
+    bookingDesc:
+      "प्राधान्य ओपीडी किंवा डॉक्टर सल्लामसलतीसाठी अपॉइंटमेंट आरक्षित करा.",
+    bookingBtn: "अपॉइंटमेंट बुक करा",
     hospitals: "जवळची आपत्कालीन रुग्णालये",
     hospitalsSub:
       "तुमच्या वर्तमान स्थानाजवळ उपलब्ध emergency-capable hospitals.",
@@ -316,30 +366,7 @@ export default function PatientEmergencyPage() {
 
   return (
     <main className="min-h-screen bg-[#FFF7F7] text-[#10201D]">
-      <header className="border-b border-red-100 bg-white px-4 py-4 sm:px-6 lg:px-10">
-        <div className="mx-auto flex max-w-5xl items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-600">
-              <Siren className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <b className="tracking-tight">MEDIKIOSK</b>
-              <p className="text-[11px] font-semibold text-red-600">
-                EMERGENCY SOS
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="flex cursor-pointer items-center gap-2 text-sm text-[#5C6B67]"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </button>
-        </div>
-      </header>
+      <PatientNav />
 
       <section className="px-4 py-6 sm:px-6 sm:py-8">
         <div className="mx-auto max-w-5xl space-y-5">
@@ -518,8 +545,128 @@ export default function PatientEmergencyPage() {
                   <b>Demo status:</b> REQUEST_CREATED • Patient:{" "}
                   {patientName}
                 </div>
+                <div className="mt-4 flex flex-wrap gap-2 pt-3 border-t border-[#BBDDD5]">
+                  <button
+                    type="button"
+                    onClick={() => router.push("/patient/documents")}
+                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-white px-3.5 py-2 text-xs font-bold text-[#1B7A6B] border border-[#BBDDD5] shadow-xs hover:bg-[#F1F7F5]"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Attach Records
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => router.push("/patient/summary")}
+                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-white px-3.5 py-2 text-xs font-bold text-[#2F4C7A] border border-[#BBDDD5] shadow-xs hover:bg-[#F1F7F5]"
+                  >
+                    <Sparkles className="h-4 w-4" />
+                    AI Summary
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => router.push("/patient/booking")}
+                    className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-white px-3.5 py-2 text-xs font-bold text-[#10201D] border border-[#BBDDD5] shadow-xs hover:bg-[#F1F7F5]"
+                  >
+                    <CalendarDays className="h-4 w-4" />
+                    Book Priority OPD
+                  </button>
+                </div>
               </div>
             )}
+          </div>
+
+          {/* Connected Clinical Services (Post-SOS Flow) */}
+          <div className="rounded-2xl border-2 border-[#1B7A6B]/20 bg-gradient-to-br from-white to-[#F7FAF9] p-5 shadow-sm sm:p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#EAF6F3] text-[#1B7A6B]">
+                    <Activity className="h-4 w-4" />
+                  </div>
+                  <h2 className="text-xl font-black text-[#10201D]">
+                    {t.connectedCareTitle}
+                  </h2>
+                </div>
+                <p className="mt-1 text-sm text-[#5C6B67]">
+                  {t.connectedCareSub}
+                </p>
+              </div>
+
+              <span className="hidden rounded-full bg-[#EAF6F3] px-3 py-1 text-xs font-bold text-[#1B7A6B] sm:inline-block">
+                Patient Portal
+              </span>
+            </div>
+
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              {/* 1. Documents & Medical Records */}
+              <div className="group flex flex-col justify-between rounded-xl border border-[#E3E9E6] bg-white p-5 transition hover:border-[#1B7A6B] hover:shadow-md">
+                <div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#EAF6F3] text-[#1B7A6B] transition group-hover:scale-105">
+                    <FileText className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-4 font-bold text-base text-[#10201D]">
+                    {t.docsTitle}
+                  </h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-[#5C6B67]">
+                    {t.docsDesc}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => router.push("/patient/documents")}
+                  className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#1B7A6B] py-3 text-xs font-bold text-white shadow-xs transition hover:bg-[#155F53] active:scale-[0.99]"
+                >
+                  <span>{t.docsBtn}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* 2. AI Clinical Summary */}
+              <div className="group flex flex-col justify-between rounded-xl border border-[#E3E9E6] bg-white p-5 transition hover:border-[#2F4C7A] hover:shadow-md">
+                <div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#E9EEF6] text-[#2F4C7A] transition group-hover:scale-105">
+                    <Sparkles className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-4 font-bold text-base text-[#10201D]">
+                    {t.summaryTitle}
+                  </h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-[#5C6B67]">
+                    {t.summaryDesc}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => router.push("/patient/summary")}
+                  className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#2F4C7A] py-3 text-xs font-bold text-white shadow-xs transition hover:bg-[#233B60] active:scale-[0.99]"
+                >
+                  <span>{t.summaryBtn}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* 3. Appointment Booking */}
+              <div className="group flex flex-col justify-between rounded-xl border border-[#E3E9E6] bg-white p-5 transition hover:border-[#10201D] hover:shadow-md">
+                <div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F4F5F4] text-[#10201D] transition group-hover:scale-105">
+                    <CalendarDays className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-4 font-bold text-base text-[#10201D]">
+                    {t.bookingTitle}
+                  </h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-[#5C6B67]">
+                    {t.bookingDesc}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => router.push("/patient/booking")}
+                  className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#10201D] py-3 text-xs font-bold text-white shadow-xs transition hover:bg-black active:scale-[0.99]"
+                >
+                  <span>{t.bookingBtn}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Nearby hospitals */}
